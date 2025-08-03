@@ -1,70 +1,77 @@
-# Getting Started with Create React App
+# Token Price Explorer
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A single-page web application built with React that allows users to select crypto tokens and see their value relative to a USD amount and another crypto token. This project was built to assess frontend development skills, API interaction, and product sense.
 
-## Available Scripts
+## Deployed Application
 
-In the project directory, you can run:
+**\[[https://token-price-explorer-one.vercel.app/](https://token-price-explorer-one.vercel.app/)]**
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Instructions to set up and run the project locally
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Prerequisites
 
-### `npm test`
+* Node.js and npm installed on your machine.
+* An active internet connection to fetch data from the API.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Setup
 
-### `npm run build`
+1. **Clone the repository:**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+   ```bash
+   git clone <your-repository-url>
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. **Navigate to the project directory:**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+   ```bash
+   cd <your-project-directory>
+   ```
 
-### `npm run eject`
+3. **Install dependencies:**
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+   This project requires `@funkit/api-base`, which has peer dependency requirements that conflict with the standard `create-react-app` environment. To resolve this, use the `--legacy-peer-deps` flag during installation.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+   ```bash
+   npm install --legacy-peer-deps
+   ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+4. **Configure Environment Variables:**
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+   * Create a new file in the root of the project directory named `.npmrc`. This file ensures that any future installations (including on deployment platforms like Vercel) handle dependency conflicts correctly. Add the following line:
 
-## Learn More
+     ```
+     legacy-peer-deps = true
+     ```
+   * Next, create a file named `.env` in the root of the project. This file will hold your API key.
+   * Add your API key to the `.env` file as follows:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+     ```
+     REACT_APP_FUNKIT_API_KEY=your_dev_api_key_here
+     ```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+5. **Run the application:**
 
-### Code Splitting
+   ```bash
+   npm start
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+   This will start the development server and open the application in your default web browser, typically at `http://localhost:3000`.
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Assumptions and Design Choices
 
-### Making a Progressive Web App
+* **API Data Structure**: The application assumes the price information from the `getAssetPriceInfo` function is located in a `unitPrice` property of the returned object. This was determined through empirical testing, as the documentation for the return type was not provided.
+* **Token List**: The list of supported tokens (USDC, USDT, ETH, WBTC) is hardcoded within the application for simplicity. In a full-scale application, this list would be fetched from a dedicated endpoint for easier maintenance.
+* **Error Handling**: The application handles API errors gracefully. If a token price cannot be fetched for any reason (e.g., API failure, invalid token data), the interface will display "N/A" rather than crashing or showing a `NaN` value. This was an intentional choice to improve user experience.
+* **Styling**: The UI was styled using standard CSS in the `App.css` file to keep the project lightweight and avoid introducing additional library dependencies. The layout follows the provided wireframe.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+---
 
-### Advanced Configuration
+## Libraries Used
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+* **React**: The core framework used to build the single-page application.
+* **@funkit/api-base**: The specified npm package used to interact with the cryptocurrency API to fetch token information and pricing data.
+* **viem**: Installed as a peer dependency of `@funkit/api-base`. It is a modern, lightweight library for interacting with Ethereum and other EVM-compatible blockchains.
