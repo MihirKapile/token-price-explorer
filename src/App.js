@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { HiArrowRight } from 'react-icons/hi';
 import { fetchTokenInfo, fetchTokenPrice } from './api/cryptoApi';
 import './App.css';
 
@@ -79,7 +80,7 @@ function App() {
             />
             <div className="token-value">{isLoading ? 'Loading...' : `${sourceValue} ${sourceToken}`}</div>
           </div>
-          <div className="arrow">→</div>
+          <div className="arrow"><HiArrowRight /></div>
           <div className="swap-box">
              <label>Target Token</label>
              <div className="token-selector-dropdown">
